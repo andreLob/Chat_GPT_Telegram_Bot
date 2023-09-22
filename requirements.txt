@@ -1,0 +1,11 @@
+certifi==2023.7.22
+cffi==1.15.1
+cryptography @ file:///private/tmp/python-cryptography-20230802-6609-hza959/cryptography-41.0.3
+lxml @ file:///private/tmp/python-lxml-20230831-6348-76f31y/lxml-4.9.3
+MarkupSafe @ file:///private/tmp/python-markupsafe-20230831-6245-phxe7h/MarkupSafe-2.1.3
+pycparser @ file:///private/tmp/pycparser-20230831-6050-10bkury/pycparser-2.21
+Pygments @ file:///private/tmp/pygments-20230806-6216-4zajry/Pygments-2.16.1
+PyYAML @ file:///private/tmp/pyyaml-20230718-6387-cxgeib/PyYAML-6.0.1
+six==1.16.0
+tabulate @ file:///private/tmp/python-tabulate-20230101-6678-tifgz3/tabulate-0.9.0
+typing_extensions @ file:///private/tmp/python-typing-extensions-20230702-5691-pqnny3/typing_extensions-4.7.1/dist/typing_extensions-4.7.1-py3-none-any.whl
