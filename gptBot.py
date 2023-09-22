@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-import os
-import openai
+import os 
+import openai # OpenAI API import
 import logging
 import requests
 from telegram import Update, InputMediaPhoto
@@ -9,12 +9,11 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 import tiktoken 
 
 
-# OepnAI API Key
-OPENAI_API_KEY = ""
-TELEGRAM_BOT_TOKEN = ""
+# OepnAI API Key goes here
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-enc = tiktoken.get_encoding("cl100k_base")
-
+# Telegram Bot Token goes here
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_API_KEY")
 
 #Initialize OpenAI API
 openai.api_key = OPENAI_API_KEY
@@ -25,18 +24,25 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
+# End of logging
 
+# Initialize conversation history
 conversation_history = []
 
-def start(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text('Hi! I am a ChatGPT bot. Send me a message and I will try to respond intelligently.')
+# Initialize TikTok Token -- used for encoding the prompt
+enc = tiktoken.get_encoding("cl100k_base")
 
 def count_tokens(text):
     return len(enc.encode(text))
 
+# Start the bot function -- runs when /start is called and automatically sends .reply_text to the user in a personal chat
+def start(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text('Hi! I am a ChatGPT bot. Send me a message and I will try to respond intelligently.')
+
+# GPT chat function -- runs when 'gpt' handler is called and automatically sends return to the user in a public chat
 def gpt_response(prompt):
     response = openai.Completion.create(
-        engine="text-davinci-003",
+        engine="text-davinci-003", # Insert engine/model here
         prompt=prompt,
         max_tokens=1000,
         n=1,
@@ -60,6 +66,7 @@ def handle_message(update: Update, context: CallbackContext):
     global conversation_history
     user_message2 = update.message.text
 
+    # Check if the user's message is too long -- needs to be optimized
     if count_tokens(user_message2) > 1000:
         print("Your prompt is too long. Please shorten and try again")
     else:
@@ -92,6 +99,8 @@ def handle_message(update: Update, context: CallbackContext):
                 print("Error: ", e)
             return None
 
+
+# DALL-E image generation function 
 def generate_image(prompt):
     headers = {
         'Authorization': f'Bearer {OPENAI_API_KEY}',
@@ -126,7 +135,7 @@ def image_request(update: Update, context: CallbackContext) -> None:
     generate_and_send_image(update, context, prompt)
 
 
-
+# main function
 def main():
     updater = Updater(TELEGRAM_BOT_TOKEN)
 
